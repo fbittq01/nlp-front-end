@@ -3,7 +3,6 @@ import _ from 'lodash';
 
 export const baseApi = 'http://172.20.10.12:8000';
 export const baseUrl = `${baseApi}`;
-export const baseUrlV2 = `${baseApi}/v2`;
 
 export const postApiResponse = async ({
   url,
