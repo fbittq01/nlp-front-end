@@ -1,7 +1,7 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-export const baseApi = 'http://172.20.10.12:8000';
+export const baseApi = 'http://localhost:8000';
 export const baseUrl = `${baseApi}`;
 
 export const postApiResponse = async ({

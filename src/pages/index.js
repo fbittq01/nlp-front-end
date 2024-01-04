@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "next/font/google";
+// import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import { postApiResponse } from "@/api/apiUtils";
 import { useEffect, useRef, useState } from "react";
@@ -8,28 +8,22 @@ import { IconButton, Stack, TextField, Typography } from "@mui/material";
 import { SendRounded } from "@mui/icons-material";
 import CustomizedField from "@/components/Field";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const initialHistory = [
-    {
-      svm: false,
-      nb: false,
-      lsmt: true,
-      cnn: true,
-    },
-  ];
+  const initialHistory = [];
   const inputRef = useRef();
   const [history, setHistory] = useState(initialHistory);
   const handleClick = async () => {
     const value = inputRef.current.inputLnp?.value;
     const result = await postApiResponse({
-      url: "/apis/",
+      url: "/apis/predict",
       body: {
         email: value,
       },
     });
-    setHistory(result, ...history);
+    const item = { ...result, mail: value }
+    setHistory([item, ...history]);
   };
   return (
     <>
@@ -39,9 +33,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
+      <main className={`${styles.main}`}>
         <div className={styles.description}>
-          <p>Môn học: Xử lý ngôn ngữ tự nhiên</p>
+          <p>Đề tài: Phân loại thư rác</p>
           <div>
             <a
               href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
@@ -49,7 +43,7 @@ export default function Home() {
               rel="noopener noreferrer"
             >
               By{" "}
-              Nhóm xxx
+              Nhóm 7
             </a>
           </div>
         </div>
@@ -74,10 +68,10 @@ export default function Home() {
                   <Stack key={index} direction={'row'} spacing={2}>
                     <Typography>{index + 1}</Typography>
                     <Stack direction={"row"} justifyContent={'space-around'} width={1}>
-                      <Typography>SVM: {item?.svm ? '1' : '0'}</Typography>
-                      <Typography>NB: {item?.nb ? '1' : '0'}</Typography>
-                      <Typography>LSTM: {item?.lstm ? '1' : '0'}</Typography>
-                      <Typography>CNN: {item?.cnn ? '1' : '0'}</Typography>
+                      <Typography sx={{width: "50%"}}>Email: {item?.mail ? item.mail : ''}</Typography>
+                      <Typography>SVM: {item?.svm ? 'spam' : 'ham'}</Typography>
+                      <Typography>NB: {item?.nb ? 'spam' : 'ham'}</Typography>
+                      <Typography>CNN: {item?.cnn ? 'spam' : 'ham'}</Typography>
                     </Stack>
                   </Stack>
                 ))}
